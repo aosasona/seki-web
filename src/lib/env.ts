@@ -1,5 +1,5 @@
 export default {
-  port: env({ name: "PORT", defaultValue: 4000 }),
+  port: env({ name: "PORT", defaultValue: 8080 }),
   env: env<"DEV" | "PROD">({ name: "ENV", defaultValue: "PROD" }),
   resendApiKey: env({ name: "RESEND_API_KEY", defaultValue: "", required: true }),
   turso: {

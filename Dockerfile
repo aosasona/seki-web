@@ -1,41 +1,30 @@
-# syntax = docker/dockerfile:1
+FROM oven/bun:1 as base
+WORKDIR /usr/src/app
 
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=18.18.2
-FROM node:${NODE_VERSION}-slim as base
+# install dependencies into temp directory
+# this will cache them and speed up future builds
+FROM base AS install
+RUN mkdir -p /temp/dev
+COPY package.json bun.lockb /temp/dev/
+RUN cd /temp/dev && bun install --frozen-lockfile
 
-LABEL fly_launch_runtime="NodeJS"
+# install with --production (exclude devDependencies)
+RUN mkdir -p /temp/prod
+COPY package.json bun.lockb /temp/prod/
+RUN cd /temp/prod && bun install --frozen-lockfile --production
 
-# NodeJS app lives here
-WORKDIR /app
+# copy node_modules from temp directory
+# then copy all (non-ignored) project files into the image
+FROM install AS prerelease
+COPY --from=install /temp/dev/node_modules node_modules
+COPY . .
 
-# Set production environment
-ENV NODE_ENV=production
+# copy production dependencies and source code into final image
+FROM base AS release
+COPY --from=install /temp/prod/node_modules node_modules
+COPY --from=prerelease /usr/src/app/src .
+COPY --from=prerelease /usr/src/app/package.json .
 
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install -y python-is-python3 pkg-config build-essential 
-
-# Install node modules
-COPY --link package.json .
-RUN npm install --production=false
-
-# Copy application code
-COPY --link . .
-
-# Remove development dependencies
-RUN npm prune --production
-
-
-# Final stage for app image
-FROM base
-
-# Copy built application
-COPY --from=build /app /app
-
-# Start the server by default, this can be overwritten at runtime
-CMD [ "npm", "run", "start" ]
+# run the app
+USER bun
+ENTRYPOINT [ "bun", "run", "index.ts" ]
