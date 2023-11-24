@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1700868022151,
+      "tag": "0000_solid_krista_starr",
+      "breakpoints": true
+    }
+  ]
+}

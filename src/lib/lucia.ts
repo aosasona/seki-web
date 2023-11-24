@@ -1,8 +1,8 @@
 import { lucia } from "lucia";
 import { hono } from "lucia/middleware";
 import env from "./env";
+import { libsqlClient } from "../database/connection";
 import { libsql } from "@lucia-auth/adapter-sqlite";
-import { libsqlClient } from "./database";
 import { github } from "@lucia-auth/oauth/providers";
 
 export const auth = lucia({

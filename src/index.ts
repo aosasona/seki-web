@@ -24,6 +24,7 @@ app.onError((e, ctx) => {
 });
 
 app.route("/api/auth", auth);
+
 app.all("/api/*", (_) => {
   throw new AppException("Not Found", 404);
 });
