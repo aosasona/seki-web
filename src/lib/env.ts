@@ -1,3 +1,30 @@
+function env<T>(args: EnvArgs<T>): T {
+  const { name, defaultValue, required } = args;
+
+  const value = Bun.env?.[name];
+  if (value == null) {
+    if (required) {
+      throw new Error(`Environment variable "${name}" is required`);
+    }
+
+    return defaultValue;
+  }
+
+  if (typeof defaultValue === "number") {
+    try {
+      const v = parseInt(value);
+      return v as unknown as T;
+    } catch (e) {
+      throw new Error(`Environment variable "${name}" is not a number`);
+    }
+  } else if (typeof defaultValue === "boolean") {
+    const v = value.toLowerCase() == "true" || value == "1";
+    return v as T;
+  } else {
+    return value?.toString() as unknown as T;
+  }
+}
+
 export default {
   port: env({ name: "PORT", defaultValue: 8080 }),
   env: env<"DEV" | "PROD">({ name: "ENV", defaultValue: "PROD" }),
@@ -19,24 +46,3 @@ type EnvArgs<T> = {
   defaultValue: T;
   required?: boolean;
 };
-function env<T>(args: EnvArgs<T>): T {
-  const { name, defaultValue, required } = args;
-
-  const value = Bun.env[name];
-  if (value == null) {
-    if (required) {
-      throw new Error(`Environment variable "${name}" is required`);
-    }
-
-    return defaultValue;
-  }
-
-  if (typeof defaultValue === "number") {
-    return Number(value) as T;
-  } else if (typeof defaultValue === "boolean") {
-    const v = value.toLowerCase() == "true";
-    return v as T;
-  } else {
-    return value?.toString() as unknown as T;
-  }
-}

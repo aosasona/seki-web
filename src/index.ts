@@ -4,6 +4,8 @@ import { logger } from "hono/logger";
 import { AppException } from "./lib/app-exception";
 import env from "./lib/env";
 
+import { auth } from "./modules/auth";
+
 const app = new Hono();
 
 app.use(logger());
@@ -21,7 +23,7 @@ app.onError((e, ctx) => {
   }
 });
 
-app.get("/", (c) => c.text("Hello Hono!"));
+app.route("/api/auth", auth);
 app.all("/api/*", (_) => {
   throw new AppException("Not Found", 404);
 });

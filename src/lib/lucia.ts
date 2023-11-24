@@ -11,6 +11,9 @@ export const auth = lucia({
   adapter: libsql(libsqlClient, { user: "users", session: "user_sessions", key: "user_keys" }),
 });
 
-export const githubAuth = github(auth, {});
+export const githubAuth = github(auth, {
+  clientId: env.github.clientId,
+  clientSecret: env.github.clientSecret,
+});
 
 export type Auth = typeof auth;
