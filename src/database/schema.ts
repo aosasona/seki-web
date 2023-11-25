@@ -2,29 +2,27 @@ import { text, integer, sqliteTable, AnySQLiteColumn, index } from "drizzle-orm/
 import { sql } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
-  id: integer("user_id").primaryKey({ autoIncrement: true }),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
+  id: text("id").primaryKey(),
   username: text("username").notNull().unique(),
-  email: text("email").notNull().unique(),
+  email: text("email").unique(),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const userKeys = sqliteTable("user_keys", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: integer("user_id")
+  id: text("id").primaryKey(),
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
     }),
-  hashedPassword: text("hashed_password").notNull(),
+  hashedPassword: text("hashed_password"),
 });
 
 export const sessions = sqliteTable("user_sessions", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: integer("user_id")
+  id: text("id").primaryKey(),
+  userId: text("user_id")
     .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
@@ -99,6 +97,8 @@ export const apiKeys = sqliteTable(
 );
 
 export type User = typeof users.$inferSelect;
+export type UserKey = typeof userKeys.$inferSelect;
+export type Session = typeof sessions.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type Task = typeof tasks.$inferSelect;
 export type ApiKey = typeof apiKeys.$inferSelect;

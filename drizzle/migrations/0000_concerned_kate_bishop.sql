@@ -6,7 +6,7 @@ CREATE TABLE `api_keys` (
 	`permissions` integer NOT NULL,
 	`description` text NOT NULL,
 	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `projects` (
@@ -19,15 +19,15 @@ CREATE TABLE `projects` (
 	`user_id` integer,
 	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	`last_updated_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `user_sessions` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`user_id` integer NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
 	`active_expires` integer NOT NULL,
 	`idle_expires` integer NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `tasks` (
@@ -46,18 +46,16 @@ CREATE TABLE `tasks` (
 );
 --> statement-breakpoint
 CREATE TABLE `user_keys` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`user_id` integer NOT NULL,
-	`hashed_password` text NOT NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON UPDATE no action ON DELETE cascade
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` text NOT NULL,
+	`hashed_password` text,
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
-	`user_id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`first_name` text NOT NULL,
-	`last_name` text NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
 	`username` text NOT NULL,
-	`email` text NOT NULL,
+	`email` text,
 	`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 --> statement-breakpoint
