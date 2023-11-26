@@ -4,9 +4,9 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { AppException } from "./lib/app-exception";
 import env from "./lib/env";
-
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { db } from "./database/connection";
+import { redirectIfLoggedIn } from "./modules/auth/middleware";
 
 const app = new Hono();
 
@@ -31,19 +31,13 @@ app.onError((e, ctx) => {
 });
 
 // Static files
-app.use("/css/*", serveStatic({ root: "./assets/css" }));
-app.use("/images/*", serveStatic({ root: "./assets/images" }));
+app.use("/css/*", serveStatic({ root: "./src/assets/" }));
+app.use("/images/*", serveStatic({ root: "./src/assets/" }));
 
 // Pages
 import SignIn from "./ui/pages/sign-in";
 
-app.get(
-  "/auth",
-  async (c, next) => {
-    return await next();
-  },
-  (c) => c.html(<SignIn />)
-);
+app.get("/sign-in", redirectIfLoggedIn, (c) => c.html(<SignIn />));
 
 // API
 import { auth } from "./modules/auth/route";

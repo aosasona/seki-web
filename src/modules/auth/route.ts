@@ -4,8 +4,22 @@ import { auth, githubAuth } from "../../lib/lucia";
 import env from "../../lib/env";
 import { OAuthRequestError } from "@lucia-auth/oauth";
 import { AppException } from "../../lib/app-exception";
+import { protect } from "./middleware";
 
 const app = new Hono();
+
+app.get("/sign-out", protect(), async (c) => {
+  const authReq = auth.handleRequest(c);
+  const session = await authReq.validate();
+  if (!session) {
+    return c.redirect("/sign-in");
+  }
+
+  await auth.invalidateSession(session.sessionId);
+  authReq.setSession(null);
+
+  return c.redirect("/sign-in");
+});
 
 app.get("/sign-in/github", async (c) => {
   const [url, state] = await githubAuth.getAuthorizationUrl();
@@ -58,7 +72,7 @@ app.get("/callback/github", async (c) => {
     const authReq = auth.handleRequest(c);
     authReq.setSession(session);
 
-    return c.redirect("/dashboard");
+    return c.redirect("/projects");
   } catch (e) {
     console.error(e);
     if (e instanceof OAuthRequestError) {
