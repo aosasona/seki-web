@@ -1,12 +1,19 @@
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
+import { jsxRenderer } from "hono/jsx-renderer";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { AppException } from "./lib/app-exception";
 import env from "./lib/env";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { db } from "./database/connection";
-import { redirectIfLoggedIn } from "./modules/auth/middleware";
+import { protect, redirectIfLoggedIn } from "./modules/auth/middleware";
+
+declare module "hono" {
+  interface ContextRenderer {
+    (content: any, props: { title: string }): Response;
+  }
+}
 
 const app = new Hono();
 
@@ -37,10 +44,19 @@ app.use("/images/*", serveStatic({ root: "./src/assets/" }));
 // Pages
 import SignIn from "./ui/pages/sign-in";
 
-app.get("/sign-in", redirectIfLoggedIn, (c) => c.html(<SignIn />));
+app.get(
+  "/*",
+  jsxRenderer(({ children, title }) => {
+    return <Layout title={title}>{children}</Layout>;
+  })
+);
+app.get("/sign-in", redirectIfLoggedIn, (c) => c.render(<SignIn />, { title: "Sign In" }));
+app.get("/projects", protect(), (c) => c.render(<Projects />, { title: "Projects" }));
 
 // API
 import { auth } from "./modules/auth/route";
+import Projects from "./ui/pages/projects";
+import Layout from "./ui/components/layout";
 
 app.route("/api/auth", auth);
 app.all("/api/*", (_) => {

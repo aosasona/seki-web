@@ -8,6 +8,13 @@ import { protect } from "./middleware";
 
 const app = new Hono();
 
+app.get("/user", protect(), async (c) => {
+  const authReq = auth.handleRequest(c);
+  const session = await authReq.validate();
+
+  return c.jsonT(session.user);
+});
+
 app.get("/sign-out", protect(), async (c) => {
   const authReq = auth.handleRequest(c);
   const session = await authReq.validate();
