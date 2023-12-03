@@ -56,8 +56,10 @@ app.get("/callback/github", async (c) => {
       if (!user) {
         return await createUser({
           attributes: {
+            avatar_url: githubUser.avatar_url,
             username: githubUser.login,
             email: githubUser.email,
+            created_at: Date.now(),
           },
         });
       }

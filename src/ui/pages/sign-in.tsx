@@ -1,4 +1,4 @@
-export default function SignIn() {
+export default async function SignIn() {
   return (
     <main class="container flex justify-center items-center mx-auto h-screen">
       <a

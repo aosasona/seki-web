@@ -595,11 +595,6 @@ video {
   border-radius: 0.5rem;
 }
 
-.bg-zinc-950{
-  --tw-bg-opacity: 1;
-  background-color: rgb(9 9 11 / var(--tw-bg-opacity));
-}
-
 .bg-gradient-to-tr{
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -608,18 +603,6 @@ video {
   --tw-gradient-from: #09090b var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(9 9 11 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.to-zinc-800{
-  --tw-gradient-to: #27272a var(--tw-gradient-to-position);
-}
-
-.to-zinc-700{
-  --tw-gradient-to: #3f3f46 var(--tw-gradient-to-position);
-}
-
-.to-zinc-500{
-  --tw-gradient-to: #71717a var(--tw-gradient-to-position);
 }
 
 .to-zinc-600{
@@ -658,12 +641,6 @@ body {
 .hover\:-translate-y-1:hover{
   --tw-translate-y: -0.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.hover\:shadow-md:hover{
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .hover\:shadow-lg:hover{

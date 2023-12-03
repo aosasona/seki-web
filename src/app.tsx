@@ -45,7 +45,7 @@ app.use("/images/*", serveStatic({ root: "./src/assets/" }));
 import SignIn from "./ui/pages/sign-in";
 
 app.get(
-  "/*",
+  "*",
   jsxRenderer(({ children, title }) => {
     return <Layout title={title}>{children}</Layout>;
   })
