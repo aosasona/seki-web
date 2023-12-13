@@ -579,20 +579,96 @@ video {
   display: flex;
 }
 
+.aspect-square{
+  aspect-ratio: 1 / 1;
+}
+
 .h-screen{
   height: 100vh;
+}
+
+.h-full{
+  height: 100%;
+}
+
+.w-10{
+  width: 2.5rem;
+}
+
+.w-screen{
+  width: 100vw;
+}
+
+.w-full{
+  width: 100%;
+}
+
+.w-8{
+  width: 2rem;
+}
+
+.w-9{
+  width: 2.25rem;
 }
 
 .items-center{
   align-items: center;
 }
 
+.justify-end{
+  justify-content: flex-end;
+}
+
 .justify-center{
   justify-content: center;
 }
 
+.gap-4{
+  gap: 1rem;
+}
+
+.gap-3{
+  gap: 0.75rem;
+}
+
+.overflow-hidden{
+  overflow: hidden;
+}
+
 .rounded-lg{
   border-radius: 0.5rem;
+}
+
+.rounded-full{
+  border-radius: 9999px;
+}
+
+.border{
+  border-width: 1px;
+}
+
+.border-b{
+  border-bottom-width: 1px;
+}
+
+.border-b-zinc-300{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(212 212 216 / var(--tw-border-opacity));
+}
+
+.border-b-zinc-200{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(228 228 231 / var(--tw-border-opacity));
+}
+
+.border-b-zinc-100{
+  --tw-border-opacity: 1;
+  border-bottom-color: rgb(244 244 245 / var(--tw-border-opacity));
+}
+
+.bg-zinc-200{
+  --tw-bg-opacity: 1;
+  background-color: rgb(228 228 231 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-tr{
@@ -619,9 +695,42 @@ video {
   padding-bottom: 0.5rem;
 }
 
+.px-6{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.py-3{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.py-3\.5{
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
+}
+
+.text-xs{
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.font-semibold{
+  font-weight: 600;
+}
+
+.font-medium{
+  font-weight: 500;
+}
+
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-zinc-500{
+  --tw-text-opacity: 1;
+  color: rgb(113 113 122 / var(--tw-text-opacity));
 }
 
 .transition-all{
@@ -641,6 +750,11 @@ body {
 .hover\:-translate-y-1:hover{
   --tw-translate-y: -0.25rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:text-zinc-600:hover{
+  --tw-text-opacity: 1;
+  color: rgb(82 82 91 / var(--tw-text-opacity));
 }
 
 .hover\:shadow-lg:hover{
